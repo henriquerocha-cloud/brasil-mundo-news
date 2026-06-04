@@ -53,7 +53,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   })
 
   // Se não achar no DB mas for a URL de teste, usa o mock
-  if (!article && params.slug === MOCK_ARTICLE.slug) {
+  if (!article && slug === MOCK_ARTICLE.slug) {
     article = MOCK_ARTICLE as any
   }
 
