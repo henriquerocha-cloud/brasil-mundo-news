@@ -110,15 +110,26 @@ export async function fetchAndProcessRss(sourceId: string) {
       }
 
       // Encontrar a categoria no banco de dados
-      let categoryId = null
-      if (aiData.categorySlug) {
-        const category = await prisma.category.findUnique({ where: { slug: aiData.categorySlug } })
-        if (category) {
-          categoryId = category.id
-        }
+      let categorySlug = aiData.categorySlug
+      if (!categorySlug) {
+        const sourceName = source.name.toLowerCase()
+        if (sourceName.includes('brasil')) categorySlug = 'brasil'
+        else if (sourceName.includes('mundo')) categorySlug = 'mundo'
+        else if (sourceName.includes('política') || sourceName.includes('politica')) categorySlug = 'politica'
+        else if (sourceName.includes('economia')) categorySlug = 'economia'
+        else if (sourceName.includes('tecnologia')) categorySlug = 'tecnologia'
+        else if (sourceName.includes('esporte')) categorySlug = 'esportes'
+        else if (sourceName.includes('entretenimento')) categorySlug = 'entretenimento'
+        else categorySlug = 'brasil' // Padrão
       }
 
-      // Fallback: se a IA falhou ou retornou um slug invalido, buscar a primeira categoria existente
+      let categoryId = null
+      const category = await prisma.category.findUnique({ where: { slug: categorySlug } })
+      if (category) {
+        categoryId = category.id
+      }
+
+      // Fallback extremo
       if (!categoryId) {
         const fallbackCategory = await prisma.category.findFirst()
         if (fallbackCategory) {

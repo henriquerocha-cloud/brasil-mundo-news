@@ -87,6 +87,40 @@ export function Navbar() {
           <WeatherWidget />
         </div>
       </div>
+
+      {/* Menu Overlay Sidebar */}
+      {isOpen && (
+        <>
+          <div 
+            className="fixed inset-0 bg-black/50 z-[100]" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div className="fixed top-0 left-0 h-full w-72 bg-white z-[101] shadow-2xl animate-in slide-in-from-left duration-200 flex flex-col">
+            <div className="p-6 border-b border-border flex justify-between items-center">
+              <span className="text-2xl font-black tracking-tighter text-primary">
+                B&M<span className="text-blue-400">.com</span>
+              </span>
+              <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground">
+                <Menu className="w-6 h-6" />
+              </button>
+            </div>
+            <nav className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+              <Link href="/" onClick={() => setIsOpen(false)} className="p-3 text-lg font-bold rounded hover:bg-muted transition-colors">Início</Link>
+              {categories.map(cat => (
+                <Link 
+                  key={cat.slug} 
+                  href={`/categoria/${cat.slug}`} 
+                  onClick={() => setIsOpen(false)}
+                  className="p-3 text-lg font-bold rounded hover:bg-muted transition-colors"
+                  style={{ color: getCategoryColor(cat.slug) }}
+                >
+                  {cat.name}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </>
+      )}
     </header>
   )
 }
