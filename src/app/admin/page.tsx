@@ -18,16 +18,18 @@ export default async function AdminDashboard() {
   })
   const onlineUsers = onlineUsersGroups.length
 
-  // Visitas de hoje
+  // Visitas Únicas de hoje (por IP)
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const visitsToday = await prisma.pageVisit.count({
+  const todayVisitsGroup = await prisma.pageVisit.groupBy({
+    by: ['ipHash'],
     where: {
       createdAt: {
         gte: today
       }
     }
   })
+  const uniqueVisitsToday = todayVisitsGroup.length
 
   // Visitas Totais ou Mensais (Mocamos o mensal como o total do banco para simplificar agora)
   const totalVisits = await prisma.pageVisit.count()
@@ -58,8 +60,8 @@ export default async function AdminDashboard() {
             <Eye className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground font-medium">Visualizações Hoje</p>
-            <h3 className="text-2xl font-bold text-foreground">{visitsToday}</h3>
+            <p className="text-sm text-muted-foreground font-medium">Visitantes Únicos Hoje</p>
+            <h3 className="text-2xl font-bold text-foreground">{uniqueVisitsToday}</h3>
           </div>
         </div>
 
