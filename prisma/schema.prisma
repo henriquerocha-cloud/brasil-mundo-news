@@ -82,3 +82,12 @@ model Settings {
   value     String   
   updatedAt DateTime @updatedAt
 }
+
+model PageVisit {
+  id        String   @id @default(cuid())
+  ipHash    String
+  path      String
+  referer   String?
+  userAgent String?
+  createdAt DateTime @default(now())
+}
