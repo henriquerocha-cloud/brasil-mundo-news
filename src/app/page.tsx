@@ -15,48 +15,21 @@ async function getHomeData() {
     include: { category: true }
   })
 
-  // Se o banco estiver vazio, retorna dados mockados para demonstração do design
-  if (latestArticles.length === 0) {
-    return {
-      heroArticle: null,
-      secondaryArticles: [],
-      latestNews: [],
-      trendingNews: [],
-    }
-  }
-
   return {
-    heroArticle: latestArticles[0],
+    heroArticle: latestArticles[0] || null,
     secondaryArticles: latestArticles.slice(1, 5),
     latestNews: latestArticles.slice(5, 12),
     trendingNews: latestArticles.slice(12, 17), // Na vida real seria ordenado por views
   }
 }
 
-// Mock Data for Design Demonstration
-const MOCK_HERO = {
-  title: "Avanços na Inteligência Artificial prometem revolucionar a medicina diagnóstica",
-  slug: "avancos-ia-medicina",
-  summary: "Pesquisadores desenvolvem novo modelo de IA capaz de detectar doenças em estágios iniciais com precisão superior a 95%, reduzindo drasticamente o tempo de diagnóstico.",
-  imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
-  category: { name: "Saúde", slug: "saude" },
-  publishedAt: new Date()
-}
-
-const MOCK_SECONDARY = [
-  { title: "Bolsa fecha em alta histórica após novos anúncios econômicos", slug: "bolsa-alta", imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=600&q=80", category: { name: "Economia" }, publishedAt: new Date(Date.now() - 3600000) },
-  { title: "Novo foguete comercial atinge órbita com sucesso", slug: "foguete-orbita", imageUrl: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=600&q=80", category: { name: "Ciência" }, publishedAt: new Date(Date.now() - 7200000) },
-  { title: "Seleção brasileira se prepara para as eliminatórias", slug: "selecao-eliminatorias", imageUrl: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=600&q=80", category: { name: "Esportes" }, publishedAt: new Date(Date.now() - 14400000) },
-  { title: "Festival de cinema anuncia vencedores deste ano", slug: "festival-cinema", imageUrl: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=600&q=80", category: { name: "Entretenimento" }, publishedAt: new Date(Date.now() - 28800000) },
-]
-
 export default async function Home() {
   const data = await getHomeData()
   
-  const hero = data.heroArticle || MOCK_HERO
-  const secondary = data.secondaryArticles.length > 0 ? data.secondaryArticles : MOCK_SECONDARY
-  const latest = data.latestNews.length > 0 ? data.latestNews : MOCK_SECONDARY
-  const trending = data.trendingNews.length > 0 ? data.trendingNews : MOCK_SECONDARY
+  const hero = data.heroArticle
+  const secondary = data.secondaryArticles
+  const latest = data.latestNews
+  const trending = data.trendingNews
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-12">
@@ -68,60 +41,67 @@ export default async function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <Link href={`/noticia/${hero.slug}`} className="lg:col-span-8 group relative rounded-2xl overflow-hidden h-[400px] lg:h-[500px] block">
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10 transition-opacity duration-300"></div>
-          {hero.imageUrl ? (
-            <img 
-              src={hero.imageUrl} 
-              alt={hero.title}
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-primary/20"></div>
-          )}
-          <div className="absolute bottom-0 left-0 p-6 md:p-8 z-20 w-full text-white">
-            <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-md mb-4">
-              {hero.category?.name || 'Destaque'}
-            </span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 group-hover:text-blue-400 transition-colors">
-              {hero.title}
-            </h1>
-            <p className="text-slate-200 text-lg md:text-xl line-clamp-2 mb-4 max-w-3xl">
-              {hero.summary}
-            </p>
-            <div className="flex items-center text-slate-300 text-sm font-medium">
-              <Clock className="w-4 h-4 mr-2" />
-              {formatDistanceToNow(new Date(hero.publishedAt), { addSuffix: true, locale: ptBR })}
-            </div>
-          </div>
-        </Link>
-
-        <div className="lg:col-span-4 flex flex-col gap-6">
-          {secondary.slice(0, 2).map((article: any) => (
-            <Link key={article.slug} href={`/noticia/${article.slug}`} className="group relative rounded-2xl overflow-hidden flex-1 block h-[200px] lg:h-auto">
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent z-10"></div>
-              {article.imageUrl ? (
-                <img 
-                  src={article.imageUrl} 
-                  alt={article.title}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-secondary"></div>
-              )}
-              <div className="absolute bottom-0 left-0 p-5 z-20 text-white">
-                <span className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2 block">
-                  {article.category?.name || 'Notícia'}
-                </span>
-                <h3 className="text-xl font-bold leading-snug group-hover:text-blue-300 transition-colors line-clamp-3">
-                  {article.title}
-                </h3>
+      {!hero ? (
+        <section className="py-20 text-center bg-card rounded-2xl border border-border">
+          <h2 className="text-2xl font-bold mb-4">Nenhuma notícia encontrada</h2>
+          <p className="text-muted-foreground">O banco de dados de notícias ainda está vazio. Vá até o Painel Admin e clique em "Sincronizar Notícias Agora" ou aguarde a automação.</p>
+        </section>
+      ) : (
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <Link href={`/noticia/${hero.slug}`} className="lg:col-span-8 group relative rounded-2xl overflow-hidden h-[400px] lg:h-[500px] block">
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10 transition-opacity duration-300"></div>
+            {hero.imageUrl ? (
+              <img 
+                src={hero.imageUrl} 
+                alt={hero.title}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-primary/20"></div>
+            )}
+            <div className="absolute bottom-0 left-0 p-6 md:p-8 z-20 w-full text-white">
+              <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-md mb-4">
+                {hero.category?.name || 'Destaque'}
+              </span>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 group-hover:text-blue-400 transition-colors">
+                {hero.title}
+              </h1>
+              <p className="text-slate-200 text-lg md:text-xl line-clamp-2 mb-4 max-w-3xl">
+                {hero.summary}
+              </p>
+              <div className="flex items-center text-slate-300 text-sm font-medium">
+                <Clock className="w-4 h-4 mr-2" />
+                {formatDistanceToNow(new Date(hero.publishedAt), { addSuffix: true, locale: ptBR })}
               </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+            </div>
+          </Link>
+
+          <div className="lg:col-span-4 flex flex-col gap-6">
+            {secondary.slice(0, 2).map((article: any) => (
+              <Link key={article.slug} href={`/noticia/${article.slug}`} className="group relative rounded-2xl overflow-hidden flex-1 block h-[200px] lg:h-auto">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent z-10"></div>
+                {article.imageUrl ? (
+                  <img 
+                    src={article.imageUrl} 
+                    alt={article.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-secondary"></div>
+                )}
+                <div className="absolute bottom-0 left-0 p-5 z-20 text-white">
+                  <span className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-2 block">
+                    {article.category?.name || 'Notícia'}
+                  </span>
+                  <h3 className="text-xl font-bold leading-snug group-hover:text-blue-300 transition-colors line-clamp-3">
+                    {article.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Grid Content: Latest & Trending */}
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">

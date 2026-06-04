@@ -1,0 +1,1 @@
+export default function Sobre() { return <div className="container mx-auto px-4 py-20 max-w-3xl"><h1 className="text-4xl font-bold mb-6">Sobre Nós</h1><p className="text-lg text-muted-foreground">O Brasil & Mundo News é um portal dedicado a trazer as notícias mais relevantes do Brasil e do mundo, com foco em qualidade e agilidade.</p></div> }

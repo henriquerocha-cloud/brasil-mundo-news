@@ -108,6 +108,23 @@ export async function fetchAndProcessRss(sourceId: string) {
         counter++
       }
 
+      // Encontrar a categoria no banco de dados
+      let categoryId = null
+      if (aiData.categorySlug) {
+        const category = await prisma.category.findUnique({ where: { slug: aiData.categorySlug } })
+        if (category) {
+          categoryId = category.id
+        }
+      }
+
+      // Fallback: se a IA falhou ou retornou um slug invalido, buscar a primeira categoria existente
+      if (!categoryId) {
+        const fallbackCategory = await prisma.category.findFirst()
+        if (fallbackCategory) {
+          categoryId = fallbackCategory.id
+        }
+      }
+
       await prisma.article.create({
         data: {
           title: item.title,
@@ -120,6 +137,7 @@ export async function fetchAndProcessRss(sourceId: string) {
           sourceId: source.id,
           seoTitle: aiData.seoTitle,
           seoDescription: aiData.seoDescription,
+          categoryId,
         },
       })
       

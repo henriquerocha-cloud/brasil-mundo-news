@@ -18,19 +18,23 @@ export async function generateContentSummary(content: string, title: string) {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
     const prompt = `
-      Você é um jornalista experiente. Analise a seguinte notícia e forneça:
+      Você é um jornalista e editor experiente do portal Brasil & Mundo News. 
+      Analise a seguinte notícia e forneça:
       1. Um resumo jornalístico envolvente (máximo 3 parágrafos) do texto.
       2. Um título otimizado para SEO (máximo 60 caracteres).
       3. Uma meta descrição para SEO (máximo 150 caracteres).
+      4. A categoria ideal para esta notícia, escolhendo EXATAMENTE UMA destas opções (em minúsculas):
+         [brasil, mundo, politica, economia, tecnologia, esportes, entretenimento]
       
       Retorne APENAS um objeto JSON válido (sem markdown), com as seguintes chaves:
       - "summary": (string, o resumo da notícia)
       - "seoTitle": (string, o título SEO)
       - "seoDescription": (string, a meta descrição)
+      - "categorySlug": (string, o slug da categoria escolhida, ex: "economia")
 
       Título original: ${title}
       Conteúdo original:
-      ${content.substring(0, 5000)} // Limita a 5000 caracteres para poupar tokens
+      ${content.substring(0, 5000)}
     `
 
     const result = await model.generateContent(prompt)
@@ -42,6 +46,7 @@ export async function generateContentSummary(content: string, title: string) {
       summary: parsed.summary,
       seoTitle: parsed.seoTitle,
       seoDescription: parsed.seoDescription,
+      categorySlug: parsed.categorySlug,
     }
   } catch (error) {
     console.error('Error generating AI content:', error)

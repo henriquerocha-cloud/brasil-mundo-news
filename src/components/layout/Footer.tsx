@@ -1,3 +1,5 @@
+"use client"
+
 import Link from 'next/link'
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa'
 
@@ -48,9 +50,16 @@ export function Footer() {
             <p className="text-sm text-muted-foreground mb-4">
               Receba as principais notícias do dia no seu e-mail.
             </p>
-            <form className="flex gap-2">
+            <form 
+              className="flex gap-2" 
+              onSubmit={(e) => {
+                e.preventDefault()
+                alert('Obrigado por se inscrever! Você receberá nossas notícias em breve.')
+              }}
+            >
               <input 
                 type="email" 
+                required
                 placeholder="Seu e-mail" 
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
