@@ -134,7 +134,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
 
           {/* Conteúdo */}
-          <div className="prose prose-lg dark:prose-invert max-w-none mb-10" dangerouslySetInnerHTML={{ __html: article.content || `<p>${article.summary}</p>` }} />
+          <div 
+            className="prose prose-lg dark:prose-invert max-w-none mb-10" 
+            dangerouslySetInnerHTML={{ 
+              __html: (article.content || `<p>${article.summary}</p>`).includes('<p>') 
+                ? (article.content || `<p>${article.summary}</p>`)
+                : (article.content || '').split('\n').filter((line: string) => line.trim().length > 0).map((line: string) => `<p>${line.trim()}</p>`).join('')
+            }} 
+          />
 
           {/* Link para fonte original */}
           <div className="bg-secondary p-6 rounded-xl border border-border mb-12 flex items-center justify-between">
