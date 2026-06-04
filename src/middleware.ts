@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   // Se for a página de login do admin, deixar passar
   if (request.nextUrl.pathname === '/admin/login') {
     return NextResponse.next()
