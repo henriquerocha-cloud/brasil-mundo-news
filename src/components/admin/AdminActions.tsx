@@ -17,11 +17,12 @@ export function AdminActions({ type }: { type: 'logout' | 'quick_actions' }) {
   const handleSync = async () => {
     setSyncing(true)
     try {
-      await fetch('/api/cron')
+      const res = await fetch('/api/cron?key=github_actions_sync_secret')
+      if (!res.ok) throw new Error('Falha na autorização')
       alert('Sincronização iniciada com sucesso!')
       router.refresh()
     } catch (error) {
-      alert('Erro ao sincronizar.')
+      alert('Erro ao sincronizar. Verifique a chave de segurança.')
     } finally {
       setSyncing(false)
     }

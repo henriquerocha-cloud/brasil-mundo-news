@@ -1,0 +1,16 @@
+name: Sync RSS Feeds
+
+on:
+  schedule:
+    # A cada 15 minutos
+    - cron: '*/15 * * * *'
+  # Permite rodar manualmente pelo GitHub
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API Cron Route
+        run: |
+          curl -X GET "https://brasil-mundo-news.vercel.app/api/cron?key=${{ secrets.CRON_SECRET || 'github_actions_sync_secret' }}"

@@ -3,11 +3,13 @@ import { prisma } from '@/lib/prisma'
 import { fetchAndProcessRss } from '@/lib/rss'
 
 export async function GET(request: Request) {
-  // Opcional: Proteger a rota via query parameter (ex: ?key=SECRET)
-  // const { searchParams } = new URL(request.url)
-  // if (searchParams.get('key') !== process.env.CRON_SECRET) {
-  //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  // }
+  // Proteção da rota via query parameter
+  const { searchParams } = new URL(request.url)
+  const cronSecret = process.env.CRON_SECRET || 'github_actions_sync_secret'
+  
+  if (searchParams.get('key') !== cronSecret) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
   try {
     const sources = await prisma.source.findMany({
