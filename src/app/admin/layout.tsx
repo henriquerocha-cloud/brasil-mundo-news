@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { LayoutDashboard, Rss, FileText, Settings, Users } from 'lucide-react'
 import { AdminActions } from '@/components/admin/AdminActions'
+import { Logo } from '@/components/ui/Logo'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies()
@@ -23,7 +24,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* Sidebar Admin */}
       <aside className="w-64 bg-card border-r border-border hidden md:flex md:flex-col">
         <div className="p-6">
-          <h2 className="text-lg font-bold text-foreground">Painel Admin</h2>
+          <div className="transform scale-75 origin-left">
+            <Logo />
+          </div>
         </div>
         <nav className="space-y-1 px-4 flex-1">
           <Link href="/admin" className="flex items-center gap-3 px-3 py-2 rounded-md bg-primary/10 text-primary font-medium">

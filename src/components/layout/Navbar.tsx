@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 
+import { Logo } from '@/components/ui/Logo'
+
 const categories = [
   { name: 'Brasil', slug: 'brasil' },
   { name: 'Mundo', slug: 'mundo' },
@@ -61,10 +63,8 @@ export function Navbar() {
             >
               <Menu className="h-6 w-6" />
             </button>
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <span className="text-2xl md:text-3xl font-black font-serif tracking-tight text-foreground">
-                B&M<span className="text-primary">.</span>
-              </span>
+            <Link href="/" className="flex items-center shrink-0">
+              <Logo />
             </Link>
             
             <nav className="hidden lg:flex items-center gap-8 ml-8">
