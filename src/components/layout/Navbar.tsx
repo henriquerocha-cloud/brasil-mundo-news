@@ -57,6 +57,7 @@ export function Navbar() {
                 <Link
                   key={cat.slug}
                   href={`/categoria/${cat.slug}`}
+                  prefetch={true}
                   className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary whitespace-nowrap"
                 >
                   {cat.name}
@@ -129,6 +130,7 @@ export function Navbar() {
               <Link
                 key={cat.slug}
                 href={`/categoria/${cat.slug}`}
+                prefetch={true}
                 className="text-foreground/80 hover:text-primary py-2 px-3 rounded-md hover:bg-secondary font-medium transition-colors"
                 onClick={() => setIsOpen(false)}
               >
