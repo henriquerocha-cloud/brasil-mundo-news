@@ -15,7 +15,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const { q } = await searchParams
   const query = q || ''
 
-  let articles = []
+  let articles: any[] = []
   
   if (query.trim().length > 0) {
     articles = await prisma.article.findMany({
