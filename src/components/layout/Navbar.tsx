@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { Logo } from '@/components/ui/Logo'
 import { getCategoryColor } from '@/lib/categoryColors'
 import { WeatherWidget } from '@/components/weather/WeatherWidget'
+import { NotificationPopup } from '@/components/ui/NotificationPopup'
 
 const categories = [
   { name: 'brasil', slug: 'brasil' },
@@ -23,7 +24,9 @@ export function Navbar() {
   const router = useRouter()
 
   return (
-    <header className="w-full bg-white flex flex-col">
+    <header className="w-full bg-white flex flex-col relative z-50">
+      <NotificationPopup />
+      
       {/* Nível 1: Topo Branco */}
       <div className="h-16 border-b border-border">
         <div className="container mx-auto px-4 h-full flex items-center justify-between">
