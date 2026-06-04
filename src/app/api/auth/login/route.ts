@@ -2,21 +2,25 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
 export async function POST(request: Request) {
-  const { password } = await request.json()
-  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123' // default for local testing
+  try {
+    const { password } = await request.json()
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123' // default for local testing
 
-  if (password === adminPassword || password === 'admin123') {
-    const cookieStore = await cookies()
-    cookieStore.set('admin_session', 'authenticated', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7 // 1 week
-    })
-    
-    return NextResponse.json({ success: true })
+    if (password === adminPassword || password === 'admin123') {
+      const cookieStore = await cookies()
+      cookieStore.set('admin_session', 'authenticated', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7 // 1 week
+      })
+      
+      return NextResponse.json({ success: true })
+    }
+
+    return NextResponse.json({ success: false, message: 'Invalid password' }, { status: 401 })
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message, stack: error.stack }, { status: 500 })
   }
-
-  return NextResponse.json({ success: false, message: 'Invalid password' }, { status: 401 })
 }
