@@ -15,7 +15,7 @@ export async function generateContentSummary(content: string, title: string) {
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
     const prompt = `
       Você é um jornalista experiente. Analise a seguinte notícia e forneça:
@@ -46,9 +46,9 @@ export async function generateContentSummary(content: string, title: string) {
   } catch (error) {
     console.error('Error generating AI content:', error)
     return {
-      summary: content.substring(0, 300) + '...',
+      summary: cleanContent.substring(0, 300) + '...',
       seoTitle: title,
-      seoDescription: content.substring(0, 150) + '...',
+      seoDescription: cleanContent.substring(0, 150) + '...',
     }
   }
 }
