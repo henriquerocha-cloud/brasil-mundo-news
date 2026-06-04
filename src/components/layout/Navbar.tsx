@@ -84,9 +84,6 @@ export function Navbar() {
       {/* Nível 3: Weather Bar */}
       <div className="h-10 border-b border-border bg-white flex items-center">
         <div className="container mx-auto px-4 flex items-center gap-4">
-          <button className="flex items-center justify-center p-1 hover:bg-muted rounded text-primary">
-            <ChevronDown className="w-4 h-4" />
-          </button>
           <WeatherWidget />
         </div>
       </div>

@@ -1,6 +1,10 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+const apiKey = process.env.GEMINI_API_KEY || ''
+const genAI = new GoogleGenerativeAI(apiKey)
+
+// Usando o modelo mais recente suportado (Flash é excelente para essas tarefas rápidas)
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
 export async function generateContentSummary(content: string, title: string) {
   // Limpa tags HTML para o fallback
@@ -15,8 +19,6 @@ export async function generateContentSummary(content: string, title: string) {
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
-
     const prompt = `
       Você é um jornalista e editor experiente do portal Brasil & Mundo News. 
       Analise a seguinte notícia e forneça:

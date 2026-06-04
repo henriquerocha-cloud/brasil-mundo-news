@@ -66,16 +66,17 @@ export async function fetchAndProcessRss(sourceId: string) {
       } else if (item.enclosure && item.enclosure.url && item.enclosure.type?.startsWith('image/')) {
         imageUrl = item.enclosure.url
       } else {
-        // Tenta extrair da description ou content (fallback bem basico)
+        // Tenta extrair da description ou content
         const contentStr = item['content:encoded'] || item.content || item.description || ''
-        const imgMatch = contentStr.match(/<img[^>]+src="?([^"\s]+)"?\s*\/>/i)
+        const imgMatch = contentStr.match(/<img[^>]+src="?([^"\s>]+)"?[^>]*>/i)
         if (imgMatch && imgMatch[1]) {
           imageUrl = imgMatch[1]
         }
       }
 
-      if (!imageUrl) {
-        imageUrl = await scrapeRealImageUrl(item.link)
+      // Se a imagem for uma imagem genérica do Google (ex: favicon ou logo "G"), descartamos para usar nosso banco de imagens bonito
+      if (imageUrl && (imageUrl.includes('googleusercontent.com') || imageUrl.includes('news.google.com'))) {
+        imageUrl = null
       }
 
       // Adiciona uma imagem bonita de placeholder se o RSS não enviar nenhuma imagem e o scraper falhar
