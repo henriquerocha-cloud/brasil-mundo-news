@@ -1,21 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Cloud, Sun, CloudRain, CloudSnow, CloudLightning, Loader2 } from 'lucide-react'
-
-// Utilizando Open-Meteo API (gratuita, sem chave) para São Paulo como padrão
-// Se tivéssemos mais tempo, poderíamos pegar do IP do usuário
-const WEATHER_API_URL = 'https://api.open-meteo.com/v1/forecast?latitude=-23.5505&longitude=-46.6333&daily=temperature_2m_max,temperature_2m_min&current_weather=true&timezone=America%2FSao_Paulo'
+import { Cloud, Sun, CloudRain, CloudSnow, CloudLightning, Loader2, MapPin } from 'lucide-react'
 
 interface WeatherData {
   temp: number
   max: number
   min: number
   code: number
+  city: string
 }
 
 function getWeatherIcon(code: number) {
-  // WMO Weather interpretation codes (https://open-meteo.com/en/docs)
   if (code === 0 || code === 1) return <Sun className="w-4 h-4 text-orange-500" />
   if (code >= 2 && code <= 48) return <Cloud className="w-4 h-4 text-gray-500" />
   if (code >= 51 && code <= 67) return <CloudRain className="w-4 h-4 text-blue-500" />
@@ -32,6 +28,27 @@ export function WeatherWidget() {
   useEffect(() => {
     async function fetchWeather() {
       try {
+        let lat = -23.5505
+        let lon = -46.6333
+        let city = 'São Paulo'
+
+        // Tenta pegar a localização via IP (silenciosamente, sem popup chato)
+        try {
+          const ipRes = await fetch('https://ipapi.co/json/')
+          if (ipRes.ok) {
+            const ipData = await ipRes.json()
+            if (ipData.latitude && ipData.longitude) {
+              lat = ipData.latitude
+              lon = ipData.longitude
+              city = ipData.city || city
+            }
+          }
+        } catch (e) {
+          console.log("Falha ao obter IP, usando fallback de SP")
+        }
+
+        const WEATHER_API_URL = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min&current_weather=true&timezone=auto`
+        
         const res = await fetch(WEATHER_API_URL)
         const data = await res.json()
         
@@ -39,7 +56,8 @@ export function WeatherWidget() {
           temp: Math.round(data.current_weather.temperature),
           max: Math.round(data.daily.temperature_2m_max[0]),
           min: Math.round(data.daily.temperature_2m_min[0]),
-          code: data.current_weather.weathercode
+          code: data.current_weather.weathercode,
+          city: city
         })
       } catch (error) {
         console.error('Failed to fetch weather', error)
@@ -55,7 +73,7 @@ export function WeatherWidget() {
     return (
       <div className="flex items-center gap-2 text-xs text-muted-foreground animate-pulse">
         <Loader2 className="w-3 h-3 animate-spin" />
-        <span>Carregando clima...</span>
+        <span>Buscando clima local...</span>
       </div>
     )
   }
@@ -66,7 +84,10 @@ export function WeatherWidget() {
     <div className="flex items-center gap-2 text-[13px] text-muted-foreground font-medium">
       {getWeatherIcon(weather.code)}
       <span className="text-foreground font-bold">{weather.temp}°</span>
-      <span>Máx. {weather.max}° Min. {weather.min}°, hoje em <span className="text-primary hover:underline cursor-pointer">São Paulo</span></span>
+      <span>
+        Máx. {weather.max}° Min. {weather.min}°, hoje em <span className="text-primary hover:underline cursor-pointer">{weather.city}</span>
+      </span>
+      <MapPin className="w-3 h-3 ml-1 text-muted-foreground/50" />
     </div>
   )
 }

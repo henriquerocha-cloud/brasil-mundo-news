@@ -9,14 +9,13 @@ import { getCategoryColor } from '@/lib/categoryColors'
 import { WeatherWidget } from '@/components/weather/WeatherWidget'
 
 const categories = [
-  { name: 'g1', slug: 'brasil' },
-  { name: 'o globo', slug: 'mundo' },
-  { name: 'valor', slug: 'economia' },
-  { name: 'ge', slug: 'esportes' },
-  { name: 'cartola', slug: 'cartola' },
-  { name: 'globoplay', slug: 'globoplay' },
+  { name: 'brasil', slug: 'brasil' },
+  { name: 'mundo', slug: 'mundo' },
+  { name: 'política', slug: 'politica' },
+  { name: 'economia', slug: 'economia' },
   { name: 'tecnologia', slug: 'tecnologia' },
-  { name: 'pop', slug: 'entretenimento' },
+  { name: 'esportes', slug: 'esportes' },
+  { name: 'entretenimento', slug: 'entretenimento' }
 ]
 
 export function Navbar() {
