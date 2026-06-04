@@ -40,7 +40,7 @@ export default async function Home() {
               <Link href={`/noticia/${mainArticle.slug}`} prefetch={true} className="absolute inset-0 flex flex-col">
                 <div 
                   className="flex-1 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-                  style={{ backgroundImage: `url(${mainArticle.imageUrl || '/placeholder.jpg'})` }}
+                  style={{ backgroundImage: `url(${mainArticle.imageUrl || 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80'})` }}
                 />
                 
                 {/* Tarja Inferior Colorida com Texto */}
@@ -71,7 +71,7 @@ export default async function Home() {
                   <div className="w-full aspect-[16/10] rounded-lg overflow-hidden bg-muted mb-3 relative">
                      <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-                      style={{ backgroundImage: `url(${article.imageUrl || '/placeholder.jpg'})` }}
+                      style={{ backgroundImage: `url(${article.imageUrl || 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80'})` }}
                     />
                   </div>
                   <h2 
@@ -93,7 +93,7 @@ export default async function Home() {
                   <div className="w-full aspect-[16/10] rounded-lg overflow-hidden bg-muted mb-3 relative">
                      <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-                      style={{ backgroundImage: `url(${article.imageUrl || '/placeholder.jpg'})` }}
+                      style={{ backgroundImage: `url(${article.imageUrl || 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80'})` }}
                     />
                   </div>
                   <h2 
@@ -119,7 +119,7 @@ export default async function Home() {
                   <div className="w-full aspect-video rounded-lg overflow-hidden bg-muted relative">
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-                      style={{ backgroundImage: `url(${article.imageUrl || '/placeholder.jpg'})` }}
+                      style={{ backgroundImage: `url(${article.imageUrl || 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80'})` }}
                     />
                   </div>
                   <h4 

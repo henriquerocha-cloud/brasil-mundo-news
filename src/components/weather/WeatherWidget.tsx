@@ -124,7 +124,7 @@ export function WeatherWidget() {
       </div>
 
       {isExpanded && (
-        <div className="absolute top-[104px] left-0 w-full bg-white border-b border-border shadow-sm z-40 py-4 animate-in slide-in-from-top-2 fade-in duration-200">
+        <div className="absolute top-full left-0 w-full bg-white border-b border-border shadow-sm z-40 py-4 animate-in slide-in-from-top-2 fade-in duration-200">
           <div className="container mx-auto px-4 flex justify-between items-center overflow-x-auto no-scrollbar gap-6">
             {weather.daily.map((day, idx) => {
               const dateObj = parseISO(day.date)

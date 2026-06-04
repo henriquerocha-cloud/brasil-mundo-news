@@ -82,7 +82,7 @@ export function Navbar() {
       </div>
 
       {/* Nível 3: Weather Bar */}
-      <div className="h-10 border-b border-border bg-white flex items-center">
+      <div className="h-10 border-b border-border bg-white flex items-center relative">
         <div className="container mx-auto px-4 flex items-center gap-4">
           <WeatherWidget />
         </div>
