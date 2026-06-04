@@ -74,7 +74,11 @@ export async function fetchAndProcessRss(sourceId: string) {
         }
       }
 
-      // Se a imagem for uma imagem genérica do Google (ex: favicon ou logo "G"), descartamos para usar nosso banco de imagens bonito
+      if (!imageUrl) {
+        imageUrl = await scrapeRealImageUrl(item.link)
+      }
+
+      // IMPORTANTE: Filtrar imagens genéricas do Google (tanto as extraídas da tag img quanto do scraper)
       if (imageUrl && (imageUrl.includes('googleusercontent.com') || imageUrl.includes('news.google.com'))) {
         imageUrl = null
       }
@@ -89,7 +93,7 @@ export async function fetchAndProcessRss(sourceId: string) {
           'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80', // Predio comercial
           'https://images.unsplash.com/photo-1503694978374-8a2fa686963a?w=800&q=80', // Microfones impressa
           'https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?w=800&q=80', // News desk
-          'https://images.unsplash.com/photo-1529243856184-fd5f656c1070?w=800&q=80', // Evento publico
+          'https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?w=800&q=80', // Working person (new valid image)
           'https://images.unsplash.com/photo-1557425955-df376b5903c8?w=800&q=80', // Tecnologia
           'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&q=80'  // Mundo/Globo
         ];
