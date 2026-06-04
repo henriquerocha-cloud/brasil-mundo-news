@@ -43,7 +43,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div id="newsletter" className="scroll-mt-24">
             <h4 className="font-semibold mb-4 text-foreground">Newsletter</h4>
             <p className="text-sm text-muted-foreground mb-4">
               Receba as principais notícias do dia no seu e-mail.
