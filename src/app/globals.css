@@ -3,48 +3,48 @@
 @plugin "tailwindcss-animate";
 
 :root {
-  --background: #fdfdfc; /* Off-white elegante */
-  --foreground: #111111; /* Charcoal escuro */
+  --background: #ffffff;
+  --foreground: #333333;
   --card: #ffffff;
-  --card-foreground: #111111;
+  --card-foreground: #333333;
   --popover: #ffffff;
-  --popover-foreground: #111111;
-  --primary: #c9184a; /* Crimson Red vibrante */
+  --popover-foreground: #333333;
+  --primary: #0669de; /* Azul forte estilo globo.com */
   --primary-foreground: #ffffff;
-  --secondary: #f3f2f0; /* Cinza quente */
-  --secondary-foreground: #111111;
-  --muted: #f3f2f0;
-  --muted-foreground: #737373;
-  --accent: #f3f2f0;
-  --accent-foreground: #111111;
-  --destructive: #ef4444; 
+  --secondary: #f5f5f5;
+  --secondary-foreground: #333333;
+  --muted: #f5f5f5;
+  --muted-foreground: #555555;
+  --accent: #f5f5f5;
+  --accent-foreground: #333333;
+  --destructive: #c4170c; 
   --destructive-foreground: #ffffff;
-  --border: #e5e5e5;
-  --input: #e5e5e5;
-  --ring: #c9184a;
-  --radius: 0.5rem;
+  --border: #e0e0e0;
+  --input: #e0e0e0;
+  --ring: #0669de;
+  --radius: 0.25rem;
 }
 
 [data-theme="dark"] {
-  --background: #09090b; /* Preto quase puro / Obsidian */
-  --foreground: #fafafa;
-  --card: #18181b; /* Zinc 900 */
-  --card-foreground: #fafafa;
-  --popover: #18181b;
-  --popover-foreground: #fafafa;
-  --primary: #ff4d6d; /* Rosa/Vermelho Neon */
+  --background: #ffffff; /* Forçaremos o light mode em toda parte */
+  --foreground: #333333;
+  --card: #ffffff; 
+  --card-foreground: #333333;
+  --popover: #ffffff;
+  --popover-foreground: #333333;
+  --primary: #0669de;
   --primary-foreground: #ffffff;
-  --secondary: #27272a; /* Zinc 800 */
-  --secondary-foreground: #fafafa;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
-  --destructive: #991b1b; 
-  --destructive-foreground: #fafafa;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #ff4d6d;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #333333;
+  --muted: #f5f5f5;
+  --muted-foreground: #555555;
+  --accent: #f5f5f5;
+  --accent-foreground: #333333;
+  --destructive: #c4170c; 
+  --destructive-foreground: #ffffff;
+  --border: #e0e0e0;
+  --input: #e0e0e0;
+  --ring: #0669de;
 }
 
 @theme inline {
