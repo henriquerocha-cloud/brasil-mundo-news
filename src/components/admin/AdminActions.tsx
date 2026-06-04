@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LogOut, RefreshCw } from 'lucide-react'
 
+import Link from 'next/link'
+
 export function AdminActions({ type }: { type: 'logout' | 'quick_actions' }) {
   const router = useRouter()
   const [syncing, setSyncing] = useState(false)
@@ -41,12 +43,12 @@ export function AdminActions({ type }: { type: 'logout' | 'quick_actions' }) {
 
   return (
     <div className="space-y-3">
-      <button className="w-full text-left px-4 py-3 bg-secondary hover:bg-secondary/80 rounded-lg text-sm font-medium transition-colors text-foreground">
-        + Adicionar Nova Fonte RSS (Em breve)
-      </button>
-      <button className="w-full text-left px-4 py-3 bg-secondary hover:bg-secondary/80 rounded-lg text-sm font-medium transition-colors text-foreground">
-        + Escrever Artigo Manual (Em breve)
-      </button>
+      <Link href="/admin/fontes" className="block w-full text-left px-4 py-3 bg-secondary hover:bg-secondary/80 rounded-lg text-sm font-medium transition-colors text-foreground">
+        + Adicionar Nova Fonte RSS
+      </Link>
+      <Link href="/admin/artigos" className="block w-full text-left px-4 py-3 bg-secondary hover:bg-secondary/80 rounded-lg text-sm font-medium transition-colors text-foreground">
+        + Ver e Editar Notícias
+      </Link>
       <button 
         onClick={handleSync}
         disabled={syncing}
